@@ -1,0 +1,102 @@
+#include <Servo.h>
+Servo serv1;
+Servo serv2;
+
+int servNum = 90;
+int servNum2 = 90;
+int LJstickUD = 24;
+int LJstickLR = 26;
+int RJstickLR = 13;
+int RJstickUD = 38;
+const int m1a = 30;
+const int m1b = 31;
+const int m1spd = 2;
+const int m2a = 32;
+const int m2b = 33;
+const int m2spd = 4;
+
+
+void setup() 
+{
+serv1.attach(8);
+serv2.attach(6);
+pinMode(LJstickUD, INPUT);
+pinMode(LJstickLR, INPUT);
+Serial.begin(9600);
+ pinMode(m1a, OUTPUT);
+  pinMode(m1b, OUTPUT);
+  pinMode(m1spd, OUTPUT);
+  pinMode(RJstickLR, INPUT);
+  pinMode(RJstickUD, INPUT);
+
+}
+
+void loop() {
+
+  
+  int reading4 = pulseIn(LJstickUD, HIGH);
+  int reading5 = pulseIn(LJstickLR, HIGH);
+
+int reading = pulseIn(RJstickLR, HIGH);
+int reading2 = pulseIn(RJstickUD, HIGH);
+  Serial.println(reading4);
+  forward(m1a, m1b, m1spd);
+        forward2(m2a, m2b, m2spd);
+
+  if(reading4 < 1400)
+  {
+    
+    serv1.write(servNum);
+    servNum++;
+  }
+  else if(reading4 > 1500)
+  {
+    
+    serv1.write(servNum);
+    servNum--;
+  }
+  else if(reading4 < 1500 && reading4 > 1400)
+  {
+    
+    serv1.write(servNum);
+    servNum;
+  }
+  if(reading5 < 1400)
+  {
+    
+    serv2.write(servNum2);
+    servNum2++;
+  }
+  else if(reading5 > 1500)
+  {
+    
+    serv2.write(servNum2);
+    servNum2--;
+  }
+  else if(reading5 < 1500 && reading5 > 1400)
+  {
+    
+    serv2.write(servNum2);
+    servNum2;
+  }
+
+}
+
+void forward(int a, int b, int spd) {
+  //end=millis();
+  digitalWrite(a, LOW);
+  digitalWrite(b, HIGH);
+  analogWrite(spd, 255);
+
+ 
+  
+}
+void forward2(int a, int b, int spd) {
+  //end=millis();
+  digitalWrite(a, LOW);
+  digitalWrite(b, HIGH);
+  analogWrite(spd, 230);
+
+ 
+  
+}
